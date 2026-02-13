@@ -147,6 +147,56 @@
             transform: rotate(30deg);
         }
 
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--primary-pink);
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu-btn:hover {
+            background-color: var(--primary-pink);
+            color: white;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 70px;
+            left: 0;
+            width: 100%;
+            background-color: var(--header-bg);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+            box-shadow: 0 10px 20px var(--shadow);
+            z-index: 999;
+        }
+
+        .mobile-menu a {
+            padding: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu a:hover {
+            background-color: var(--primary-pink);
+            color: white;
+        }
+
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -194,6 +244,13 @@
             box-shadow: 0 10px 20px var(--shadow);
         }
 
+        .heart-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
         /* Floating Hearts */
         .floating-hearts {
             position: fixed;
@@ -211,10 +268,10 @@
             color: var(--primary-pink);
             font-size: 24px;
             opacity: 0.7;
-            animation: float var(--heart-speed) linear infinite;
+            animation: floatHeart var(--heart-speed) linear infinite;
         }
 
-        @keyframes float {
+        @keyframes floatHeart {
             0% {
                 transform: translateY(100vh) rotate(0deg);
                 opacity: 0;
@@ -228,6 +285,56 @@
             100% {
                 transform: translateY(-100px) rotate(360deg);
                 opacity: 0;
+            }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        @keyframes popup {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
+            40% { transform: translate(-50%, -50%) scale(1); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Password Change Notification */
+        .password-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: var(--primary-pink);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            z-index: 5000;
+            animation: slideIn 0.5s ease-out;
+            font-weight: 500;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
             }
         }
 
@@ -474,7 +581,7 @@
             width: 100%;
         }
 
-        .submit-btn:hover {
+        .submit-btn:hover:not(:disabled) {
             background-color: var(--secondary-pink);
             transform: translateY(-3px);
             box-shadow: 0 5px 15px var(--shadow);
@@ -589,66 +696,6 @@
             font-size: 1.5rem;
             color: var(--text-color);
             cursor: pointer;
-        }
-
-        /* Music Player */
-        .music-player {
-            background-color: var(--card-bg);
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 20px var(--shadow);
-            max-width: 600px;
-            margin: 0 auto;
-        }
-
-        .player-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .player-header i {
-            font-size: 2rem;
-            color: var(--primary-pink);
-        }
-
-        .player-title {
-            font-size: 1.8rem;
-            color: var(--primary-pink);
-        }
-
-        .playlist {
-            margin-top: 20px;
-        }
-
-        .playlist-item {
-            display: flex;
-            align-items: center;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            background-color: var(--light-bg);
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .playlist-item:hover {
-            background-color: var(--primary-pink);
-            color: white;
-        }
-
-        .playlist-item.active {
-            background-color: var(--primary-pink);
-            color: white;
-        }
-
-        .song-info {
-            margin-left: 15px;
-        }
-
-        .song-title {
-            font-weight: 600;
         }
 
         /* Surprise Section */
@@ -821,150 +868,6 @@
             margin: 20px 0;
         }
 
-        /* Responsive Design */
-        @media (max-width: 992px) {
-            .hero-content h1 {
-                font-size: 3.5rem;
-            }
-
-            .section-title {
-                font-size: 2.8rem;
-            }
-
-            .nav-links {
-                gap: 15px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .hero-content h1 {
-                font-size: 2.8rem;
-            }
-
-            .section-title {
-                font-size: 2.3rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            /* Add this to your CSS in the responsive section */
-            .mobile-menu-btn {
-                display: none; /* Hide by default */
-                background: none;
-                border: none;
-                color: var(--primary-pink);
-                font-size: 1.5rem;
-                cursor: pointer;
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                align-items: center;
-                justify-content: center;
-                transition: all 0.3s;
-            }
-
-            .mobile-menu-btn:hover {
-                background-color: var(--primary-pink);
-                color: white;
-            }
-
-            .mobile-menu {
-                position: fixed;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background-color: var(--header-bg);
-                backdrop-filter: blur(10px);
-                padding: 20px;
-                display: none;
-                flex-direction: column;
-                gap: 15px;
-                box-shadow: 0 10px 20px var(--shadow);
-                z-index: 999;
-            }
-
-            .mobile-menu a {
-                padding: 15px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-                text-decoration: none;
-                color: var(--text-color);
-                font-weight: 500;
-                border-radius: 10px;
-                transition: all 0.3s;
-            }
-
-            .mobile-menu a:hover {
-                background-color: var(--primary-pink);
-                color: white;
-            }
-
-            /* Update the existing @media query for 768px */
-            @media (max-width: 768px) {
-                .hero-content h1 {
-                    font-size: 2.8rem;
-                }
-
-                .section-title {
-                    font-size: 2.3rem;
-                }
-
-                .nav-links {
-                    display: none; /* Hide desktop nav on mobile */
-                }
-
-                .mobile-menu-btn {
-                    display: flex; /* Show mobile menu button on mobile */
-                }
-
-                .letters-container {
-                    grid-template-columns: 1fr;
-                }
-
-                .photo-item {
-                    width: 250px;
-                    height: 250px;
-                }
-            } 
-            
-            .mobile-menu a {
-                padding: 15px;
-                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            }
-
-            .letters-container {
-                grid-template-columns: 1fr;
-            }
-
-            .photo-item {
-                width: 250px;
-                height: 250px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .hero-content h1 {
-                font-size: 2.2rem;
-            }
-            .hero-content p {
-                font-size: 1rem;
-            }
-
-            .section-title {
-                font-size: 1.8rem;
-            }
-
-            .letter-card {
-                height: 250px;
-                padding: 20px;
-            }
-
-            .surprise-container {
-                padding: 30px 20px;
-            }
-        }
-
         /* Arrow animations */
         .arrow {
             position: absolute;
@@ -1011,6 +914,70 @@
             50% { transform: scale(1.1); }
             100% { transform: scale(1); }
         }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-content h1 {
+                font-size: 3.5rem;
+            }
+
+            .section-title {
+                font-size: 2.8rem;
+            }
+
+            .nav-links {
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .section-title {
+                font-size: 2.3rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mobile-menu-btn {
+                display: flex;
+            }
+
+            .letters-container {
+                grid-template-columns: 1fr;
+            }
+
+            .photo-item {
+                width: 250px;
+                height: 250px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2.2rem;
+            }
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .letter-card {
+                height: 250px;
+                padding: 20px;
+            }
+
+            .surprise-container {
+                padding: 30px 20px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1019,7 +986,7 @@
         <div class="login-content">
             <h2 class="login-title">Our Secret Place</h2>
             <p style="margin-bottom: 20px; color: var(--text-color);">Enter our special code to enter our Valentine's world</p>
-            <input type="text" id="username" class="login-input" placeholder="Username">
+            <input type="text" id="username" class="login-input" placeholder="Username" autofocus>
             <input type="password" id="password" class="login-input" placeholder="Password">
             <button class="login-btn" id="loginBtn">Enter Our Love Space</button>
             <div class="login-error" id="loginError">Incorrect username or password. Try again!</div>
@@ -1031,8 +998,8 @@
         <div class="timeout-content">
             <h2 class="timeout-title">Come Back to Me! ❤️</h2>
             <p class="timeout-message">You've been away for too long! Our Valentine's space misses you.</p>
-            <div class="timeout-countdown" id="timeoutCountdown">15</div>
-            <p>Returning to login in <span id="countdownSeconds">15</span> seconds...</p>
+            <div class="timeout-countdown" id="timeoutCountdown">30</div>
+            <p>Returning to login in <span id="countdownSeconds">30</span> seconds...</p>
             <button class="heart-btn" id="stayLoggedInBtn" style="margin-top: 20px;">Stay Logged In</button>
         </div>
     </div>
@@ -1047,7 +1014,6 @@
                     <li><a href="#gallery">Memories</a></li>
                     <li><a href="#letters">Love Letters</a></li>
                     <li><a href="#games">Fun & Games</a></li>
-                    <li><a href="#music">Our Playlist</a></li>
                     <li><a href="#surprise">Surprise</a></li>
                 </ul>
                 <button class="theme-toggle" id="themeToggle">
@@ -1062,7 +1028,6 @@
                 <a href="#gallery" class="mobile-nav-link">Memories</a>
                 <a href="#letters" class="mobile-nav-link">Love Letters</a>
                 <a href="#games" class="mobile-nav-link">Fun & Games</a>
-                <a href="#music" class="mobile-nav-link">Our Playlist</a>
                 <a href="#surprise" class="mobile-nav-link">Surprise</a>
             </div>
         </div>
@@ -1104,45 +1069,47 @@
         </div>
     </section>
 
-    <<!-- Games Section - Update both forms -->
+    <!-- Games Section -->
+    <section id="games">
+        <div class="container">
+            <h2 class="section-title">Fun & Games</h2>
+            <div class="games-container">
+                <!-- Truth or Nah Form -->
+                <div class="game-card">
+                    <h3 class="game-title"><i class="fas fa-gamepad"></i> Truth or Nah?</h3>
+                    
+                    <form class="truth-form" id="truthForm" action="https://valentinebackend-production.up.railway.app/send-truth" method="POST">
+                        <div class="question" id="question1">What's the first thing you noticed about me?</div>
+                        
+                        <input type="hidden" id="question1Input" name="message">
+                        
+                        <div class="options">
+                            <div class="option" data-question="1" data-answer="Your beautiful smile">Your beautiful smile</div>
+                            <div class="option" data-question="1" data-answer="Your sense of style">Your sense of style</div>
+                            <div class="option" data-question="1" data-answer="Your voice">Your voice</div>
+                            <div class="option" data-question="1" data-answer="Your eyes">Your eyes</div>
+                        </div>
+                        
+                        <button type="submit" class="submit-btn" id="submitTruthBtn">Done</button>                    
+                        <div class="form-success" id="truthFormSuccess">Okayy❤️</div>
+                        <div class="form-error" id="truthFormError">Oops! Something went wrong. Please try again.</div>
+                    </form>
+                </div>
 
-<!-- Truth or Nah Form -->
-<div class="game-card">
-    <h3 class="game-title"><i class="fas fa-gamepad"></i> Truth or Nah?</h3>
-    
-    <form class="truth-form" id="truthForm" action="https://valentinebackend-production.up.railway.app/send-truth" method="POST">
-        <div class="question" id="question1">What's the first thing you noticed about me?</div>
-        
-        <!-- Add this hidden input -->
-        <input type="hidden" id="question1Input" name="message">
-        
-        <div class="options">
-            <div class="option" data-question="1" data-answer="Your beautiful smile">Your beautiful smile</div>
-            <div class="option" data-question="1" data-answer="Your sense of style">Your sense of style</div>
-            <div class="option" data-question="1" data-answer="Your voice">Your voice</div>
-            <div class="option" data-question="1" data-answer="Your eyes">Your eyes</div>
-        </div>
-        
-        <button type="submit" class="submit-btn" id="submitTruthBtn">Done</button>                    
-        <div class="form-success" id="truthFormSuccess">Okayy❤️</div>
-        <div class="form-error" id="truthFormError">Oops! Something went wrong. Please try again.</div>
-    </form>
-</div>
-
-<!-- Message Form -->
-<div class="game-card">
-    <h3 class="game-title"><i class="fas fa-comment-dots"></i>My turn</h3>
-    <p>How do you feel about our relationship or me that you dont want me to know. ......pls say your mind</p>
-    
-    <div class="message-form-container">
-        <form id="messageForm" action="https://valentinebackend-production.up.railway.app/send-message" method="POST">
-            <textarea class="form-input" name="message" placeholder="Type your message, question, or anything you want to tell me..."></textarea>
-            <button type="submit" class="submit-btn" id="submitMessageBtn">Send Message</button>
-            <div class="form-success" id="messageFormSuccess">Hmmm....okayyy 💕</div>
-            <div class="form-error" id="messageFormError">Failed to send message. Please try again.</div>
-        </form>
-    </div>
-</div>
+                <!-- Message Form -->
+                <div class="game-card">
+                    <h3 class="game-title"><i class="fas fa-comment-dots"></i> My turn</h3>
+                    <p>How do you feel about our relationship or me that you dont want me to know. ......pls say your mind</p>
+                    
+                    <div class="message-form-container">
+                        <form id="messageForm" action="https://valentinebackend-production.up.railway.app/send-message" method="POST">
+                            <textarea class="form-input" name="message" placeholder="Type your message, question, or anything you want to tell me..."></textarea>
+                            <button type="submit" class="submit-btn" id="submitMessageBtn">Send Message</button>
+                            <div class="form-success" id="messageFormSuccess">Hmmm....okayyy 💕</div>
+                            <div class="form-error" id="messageFormError">Failed to send message. Please try again.</div>
+                        </form>
+                    </div>
+                </div>
                 
                 <div class="game-card">
                     <h3 class="game-title"><i class="fas fa-fortune-cookie"></i> Love Fortune Cookie</h3>
@@ -1152,8 +1119,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Music Player -->
 
     <!-- Surprise Section -->
     <section id="surprise">
@@ -1181,7 +1146,7 @@
     <!-- Fortune Modal -->
     <div class="fortune-modal" id="fortuneModal">
         <div class="fortune-content">
-            <button class="close-fortune" id="closeFortune">&times;</button>
+            <button class="close-fortune" id="closeFortune">✕</button>
             <h3>Your Love Fortune</h3>
             <div class="fortune-message" id="fortuneMessage"></div>
             <p>This fortune is specially made for us!</p>
@@ -1192,9 +1157,136 @@
         // Session timeout management
         let sessionTimeout;
         let countdownInterval;
-        let countdown = 15;
+        let countdown = 30;
         let lastActivityTime = Date.now();
-        const SESSION_TIMEOUT_MS = 15000; // 15 seconds
+        const SESSION_TIMEOUT_MS = 300000; // 5 minutes
+        
+        // Password change management
+        let passwordChangeTimeout;
+        let currentPassword = 'faah!'; // Default password
+        const PASSWORD_CHANGE_DELAY = 15000; // 15 seconds
+
+        // Function to show notification
+        function showPasswordNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'password-notification';
+            notification.innerHTML = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Function to force logout and show login modal
+        function forceLogout(reason) {
+            // Clear all timeouts and intervals
+            if (sessionTimeout) clearTimeout(sessionTimeout);
+            if (countdownInterval) clearInterval(countdownInterval);
+            if (passwordChangeTimeout) clearTimeout(passwordChangeTimeout);
+            
+            // Clear login state
+            localStorage.removeItem('valentineLoggedIn');
+            localStorage.removeItem('valentineLastActivity');
+            
+            // Hide any open modals
+            const timeoutModal = document.getElementById('timeoutModal');
+            const fortuneModal = document.getElementById('fortuneModal');
+            if (timeoutModal) timeoutModal.style.display = 'none';
+            if (fortuneModal) fortuneModal.style.display = 'none';
+            
+            // Show login modal
+            const loginModal = document.getElementById('loginModal');
+            if (loginModal) {
+                loginModal.style.display = 'flex';
+                
+                // Reset form
+                const usernameInput = document.getElementById('username');
+                const passwordInput = document.getElementById('password');
+                const loginError = document.getElementById('loginError');
+                
+                if (usernameInput) usernameInput.value = '';
+                if (passwordInput) passwordInput.value = '';
+                if (loginError) loginError.style.display = 'none';
+                
+                // Focus on username input
+                setTimeout(() => {
+                    if (usernameInput) usernameInput.focus();
+                }, 100);
+            }
+            
+            // Show notification
+            showPasswordNotification(reason);
+        }
+
+        // Function to change password and force logout
+        function changePasswordAndLogout() {
+            if (currentPassword === 'faah!') {
+                currentPassword = 'zibah';
+                console.log('Password changed to: zibah');
+                
+                // Force logout with message
+                forceLogout('🔐 Password changed to "zibah"! Please login again.');
+            }
+        }
+
+        // Function to reset password (when user returns)
+        function resetPassword() {
+            if (currentPassword === 'zibah') {
+                currentPassword = 'faah!';
+                console.log('Password reset to: faah!');
+                // Don't force login here - user is already logged out
+            }
+        }
+
+        // Function to reset password change timer
+        function resetPasswordTimer() {
+            if (passwordChangeTimeout) {
+                clearTimeout(passwordChangeTimeout);
+            }
+            // Reset password to default when user returns
+            resetPassword();
+            // Start new timer to change password after 15 seconds
+            passwordChangeTimeout = setTimeout(changePasswordAndLogout, PASSWORD_CHANGE_DELAY);
+        }
+
+        // Track browser visibility
+        function setupVisibilityTracking() {
+            document.addEventListener('visibilitychange', function() {
+                if (document.hidden) {
+                    // User left the browser - start timer to change password and logout
+                    console.log('Browser hidden - starting 15s timer for password change & logout');
+                    if (passwordChangeTimeout) {
+                        clearTimeout(passwordChangeTimeout);
+                    }
+                    passwordChangeTimeout = setTimeout(changePasswordAndLogout, PASSWORD_CHANGE_DELAY);
+                } else {
+                    // User returned to browser - reset password but they're already logged out
+                    console.log('Browser visible - resetting password');
+                    resetPassword();
+                    if (passwordChangeTimeout) {
+                        clearTimeout(passwordChangeTimeout);
+                    }
+                }
+            });
+
+            // Also track when browser window loses/gains focus
+            window.addEventListener('blur', function() {
+                console.log('Window blurred - starting 15s timer for password change & logout');
+                if (passwordChangeTimeout) {
+                    clearTimeout(passwordChangeTimeout);
+                }
+                passwordChangeTimeout = setTimeout(changePasswordAndLogout, PASSWORD_CHANGE_DELAY);
+            });
+
+            window.addEventListener('focus', function() {
+                console.log('Window focused - resetting password');
+                resetPassword();
+                if (passwordChangeTimeout) {
+                    clearTimeout(passwordChangeTimeout);
+                }
+            });
+        }
 
         // Reset activity timer
         function resetActivityTimer() {
@@ -1208,7 +1300,9 @@
 
             // Hide timeout modal if it's showing
             const timeoutModal = document.getElementById('timeoutModal');
-            timeoutModal.style.display = 'none';
+            if (timeoutModal) {
+                timeoutModal.style.display = 'none';
+            }
 
             if (countdownInterval) {
                 clearInterval(countdownInterval);
@@ -1221,8 +1315,10 @@
             const countdownElement = document.getElementById('timeoutCountdown');
             const secondsElement = document.getElementById('countdownSeconds');
 
+            if (!timeoutModal || !countdownElement || !secondsElement) return;
+
             timeoutModal.style.display = 'flex';
-            countdown = 15;
+            countdown = 30;
 
             // Start countdown
             countdownInterval = setInterval(() => {
@@ -1237,7 +1333,7 @@
             }, 1000);
         }
 
-        // Logout user
+        // Logout user (for session timeout)
         function logoutUser() {
             localStorage.removeItem('valentineLoggedIn');
             localStorage.removeItem('valentineLastActivity');
@@ -1246,13 +1342,22 @@
             const loginModal = document.getElementById('loginModal');
             const timeoutModal = document.getElementById('timeoutModal');
 
-            timeoutModal.style.display = 'none';
-            loginModal.style.display = 'flex';
+            if (loginModal) loginModal.style.display = 'flex';
+            if (timeoutModal) timeoutModal.style.display = 'none';
 
             // Reset form
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
-            document.getElementById('loginError').style.display = 'none';
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const loginError = document.getElementById('loginError');
+            
+            if (usernameInput) usernameInput.value = '';
+            if (passwordInput) passwordInput.value = '';
+            if (loginError) loginError.style.display = 'none';
+
+            // Focus on username input
+            setTimeout(() => {
+                if (usernameInput) usernameInput.focus();
+            }, 100);
 
             // Clear any intervals
             if (countdownInterval) {
@@ -1266,32 +1371,61 @@
 
         // Track user activity
         function trackUserActivity() {
-            document.addEventListener('mousemove', resetActivityTimer);
-            document.addEventListener('keydown', resetActivityTimer);
-            document.addEventListener('click', resetActivityTimer);
-            document.addEventListener('scroll', resetActivityTimer);
+            const events = ['mousemove', 'keydown', 'click', 'scroll', 'touchstart', 'touchmove'];
+            
+            events.forEach(event => {
+                document.addEventListener(event, resetActivityTimer);
+            });
+        }
 
-            // Also track touch events for mobile
-            document.addEventListener('touchstart', resetActivityTimer);
-            document.addEventListener('touchmove', resetActivityTimer);
+        // Focus trap for modal
+        function trapFocus(element) {
+            const focusableElements = element.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const firstFocusable = focusableElements[0];
+            const lastFocusable = focusableElements[focusableElements.length - 1];
+
+            element.addEventListener('keydown', function(e) {
+                if (e.key === 'Tab') {
+                    if (e.shiftKey) {
+                        if (document.activeElement === firstFocusable) {
+                            e.preventDefault();
+                            lastFocusable.focus();
+                        }
+                    } else {
+                        if (document.activeElement === lastFocusable) {
+                            e.preventDefault();
+                            firstFocusable.focus();
+                        }
+                    }
+                }
+            });
         }
 
         // Wait for DOM to load
         document.addEventListener('DOMContentLoaded', function() {
+            // Setup password change on browser leave
+            setupVisibilityTracking();
+            
             // Check if user is already logged in
             const isLoggedIn = localStorage.getItem('valentineLoggedIn');
             const loginModal = document.getElementById('loginModal');
 
             if (!isLoggedIn) {
                 loginModal.style.display = 'flex';
+                // Trap focus in login modal
+                trapFocus(loginModal);
+                // Focus username input
+                document.getElementById('username').focus();
             } else {
                 loginModal.style.display = 'none';
                 initializeWebsite();
                 resetActivityTimer();
                 trackUserActivity();
+                // Start password timer
+                resetPasswordTimer();
             }
 
-            // Login functionality
+            // Login functionality - Use currentPassword variable
             const loginBtn = document.getElementById('loginBtn');
             const loginError = document.getElementById('loginError');
 
@@ -1299,14 +1433,15 @@
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
 
-                // Check credentials (username: faah!, password: faah!)
-                if (username === 'faah!' && password === 'faah!') {
+                // Check credentials using the dynamic currentPassword
+                if (username === 'faah!' && password === currentPassword) {
                     localStorage.setItem('valentineLoggedIn', 'true');
                     localStorage.setItem('valentineLastActivity', Date.now());
                     loginModal.style.display = 'none';
                     initializeWebsite();
                     resetActivityTimer();
                     trackUserActivity();
+                    resetPasswordTimer(); // Start password timer after login
                 } else {
                     loginError.style.display = 'block';
                     // Shake animation for error
@@ -1318,27 +1453,22 @@
             });
 
             // Stay logged in button
-            document.getElementById('stayLoggedInBtn').addEventListener('click', function() {
-                resetActivityTimer();
-            });
-
-            // Add shake animation for login error
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes shake {
-                    0%, 100% { transform: translateX(0); }
-                    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-                    20%, 40%, 60%, 80% { transform: translateX(5px); }
-                }
-            `;
-            document.head.appendChild(style);
+            const stayLoggedInBtn = document.getElementById('stayLoggedInBtn');
+            if (stayLoggedInBtn) {
+                stayLoggedInBtn.addEventListener('click', function() {
+                    resetActivityTimer();
+                });
+            }
 
             // Allow pressing Enter to login
-            document.getElementById('password').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    loginBtn.click();
-                }
-            });
+            const passwordInput = document.getElementById('password');
+            if (passwordInput) {
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        loginBtn.click();
+                    }
+                });
+            }
         });
 
         function initializeWebsite() {
@@ -1381,7 +1511,7 @@
                 floatingHearts.appendChild(heart);
             }
 
-            // Love button (replaces confetti button)
+            // Love button
             const loveBtn = document.getElementById('loveBtn');
 
             loveBtn.addEventListener('click', function() {
@@ -1403,16 +1533,6 @@
                     // Remove heart after animation
                     setTimeout(() => loveHeart.remove(), 3000);
                 }
-
-                // Add floating animation
-                const floatStyle = document.createElement('style');
-                floatStyle.textContent = `
-                    @keyframes floatUp {
-                        0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-                        100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
-                    }
-                `;
-                document.head.appendChild(floatStyle);
 
                 // Show romantic message
                 const messages = [
@@ -1449,30 +1569,15 @@
 
                 document.body.appendChild(popup);
 
-                // Add popup animation
-                const style = document.createElement('style');
-                style.textContent = `
-                    @keyframes popup {
-                        0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-                        20% { opacity: 1; transform: translate(-50%, -50%) scale(1.1); }
-                        40% { transform: translate(-50%, -50%) scale(1); }
-                        80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-                        100% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-                    }
-                `;
-                document.head.appendChild(style);
-
                 // Remove popup after animation
                 setTimeout(() => {
                     popup.remove();
-                    style.remove();
                 }, 2000);
             }
 
-            // Photo Gallery
+            // Photo Gallery (keeping your existing code)
             const galleryContainer = document.getElementById('galleryContainer');
 
-            // Using placeholder images with Valentine's theme colors
             const photoData = [
                 { 
                     id: 1, 
@@ -1505,6 +1610,9 @@
                     caption: "i be feeling like merlin lol" 
                 }
             ];
+
+            // Clear any existing content
+            galleryContainer.innerHTML = '';
 
             // Create gallery items
             photoData.forEach(photo => {
@@ -1544,6 +1652,9 @@
                 }
             ];
 
+            // Clear any existing content
+            lettersContainer.innerHTML = '';
+
             letters.forEach((letter, index) => {
                 const letterCard = document.createElement('div');
                 letterCard.className = 'letter-card';
@@ -1570,158 +1681,138 @@
                 }, index * 300);
             });
 
-            // Truth or Nah Form - Option selection
+            // Truth Form - Option selection
             const options = document.querySelectorAll('.option');
             const question1Input = document.getElementById('question1Input');
 
             options.forEach(option => {
                 option.addEventListener('click', function() {
-                    // Remove selected class from all options
                     options.forEach(opt => opt.classList.remove('selected'));
-                    
-                    // Add selected class to clicked option
                     this.classList.add('selected');
-                    
-                    // Update the hidden input with the selected answer
-                    question1Input.value = this.getAttribute('data-answer');
+                    if (question1Input) {
+                        question1Input.value = this.getAttribute('data-answer');
+                    }
                 });
             });
-// Truth Form - Option selection
-const options = document.querySelectorAll('.option');
-options.forEach(option => {
-    option.addEventListener('click', function() {
-        options.forEach(opt => opt.classList.remove('selected'));
-        this.classList.add('selected');
-        // Update hidden input with selected answer
-        document.getElementById('question1Input').value = this.getAttribute('data-answer');
-    });
-});
 
-// Truth Form Submission
-const truthForm = document.getElementById('truthForm');
-const truthFormSuccess = document.getElementById('truthFormSuccess');
-const truthFormError = document.getElementById('truthFormError');
-const submitTruthBtn = document.getElementById('submitTruthBtn');
+            // Truth Form Submission
+            const truthForm = document.getElementById('truthForm');
+            const truthFormSuccess = document.getElementById('truthFormSuccess');
+            const truthFormError = document.getElementById('truthFormError');
+            const submitTruthBtn = document.getElementById('submitTruthBtn');
 
-truthForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    // Check if an option is selected
-    const selectedOption = document.querySelector('.option.selected');
-    if (!selectedOption) {
-        alert('Please select an answer first!');
-        return;
-    }
-    
-    // Disable button and show loading state
-    submitTruthBtn.disabled = true;
-    submitTruthBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
-    
-    const formData = {
-        message: document.getElementById('question1Input').value
-    };
-    
-    try {
-        const response = await fetch(this.action, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            // Show success message
-            truthFormSuccess.style.display = 'block';
-            truthFormError.style.display = 'none';
-            
-            // Reset form after 3 seconds
-            setTimeout(() => {
-                truthForm.reset();
-                options.forEach(opt => opt.classList.remove('selected'));
-                truthFormSuccess.style.display = 'none';
-            }, 3000);
-        } else {
-            throw new Error(data.error || 'Form submission failed');
-        }
-    } catch (error) {
-        // Show error message
-        truthFormError.style.display = 'block';
-        truthFormSuccess.style.display = 'none';
-        
-        setTimeout(() => {
-            truthFormError.style.display = 'none';
-        }, 5000);
-    } finally {
-        // Re-enable button
-        submitTruthBtn.disabled = false;
-        submitTruthBtn.innerHTML = 'Done! Send My Answers';
-    }
-});
+            if (truthForm) {
+                truthForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const selectedOption = document.querySelector('.option.selected');
+                    if (!selectedOption) {
+                        alert('Please select an answer first!');
+                        return;
+                    }
+                    
+                    submitTruthBtn.disabled = true;
+                    submitTruthBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+                    
+                    const formData = {
+                        message: document.getElementById('question1Input').value
+                    };
+                    
+                    try {
+                        const response = await fetch(this.action, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(formData)
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            truthFormSuccess.style.display = 'block';
+                            truthFormError.style.display = 'none';
+                            
+                            setTimeout(() => {
+                                truthForm.reset();
+                                options.forEach(opt => opt.classList.remove('selected'));
+                                truthFormSuccess.style.display = 'none';
+                            }, 3000);
+                        } else {
+                            throw new Error(data.error || 'Form submission failed');
+                        }
+                    } catch (error) {
+                        truthFormError.style.display = 'block';
+                        truthFormSuccess.style.display = 'none';
+                        
+                        setTimeout(() => {
+                            truthFormError.style.display = 'none';
+                        }, 5000);
+                    } finally {
+                        submitTruthBtn.disabled = false;
+                        submitTruthBtn.innerHTML = 'Done';
+                    }
+                });
+            }
 
-// Message Form Submission
-const messageForm = document.getElementById('messageForm');
-const messageFormSuccess = document.getElementById('messageFormSuccess');
-const messageFormError = document.getElementById('messageFormError');
-const submitMessageBtn = document.getElementById('submitMessageBtn');
+            // Message Form Submission
+            const messageForm = document.getElementById('messageForm');
+            const messageFormSuccess = document.getElementById('messageFormSuccess');
+            const messageFormError = document.getElementById('messageFormError');
+            const submitMessageBtn = document.getElementById('submitMessageBtn');
 
-messageForm.addEventListener('submit', async function(e) {
-    e.preventDefault();
-    
-    const messageText = this.querySelector('textarea[name="message"]').value;
-    if (!messageText.trim()) {
-        alert('Please write a message first!');
-        return;
-    }
-    
-    // Disable button and show loading state
-    submitMessageBtn.disabled = true;
-    submitMessageBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
-    
-    const formData = {
-        message: messageText
-    };
-    
-    try {
-        const response = await fetch(this.action, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
-        
-        const data = await response.json();
-        
-        if (data.success) {
-            // Show success message
-            messageFormSuccess.style.display = 'block';
-            messageFormError.style.display = 'none';
-            
-            // Reset form after 3 seconds
-            setTimeout(() => {
-                messageForm.reset();
-                messageFormSuccess.style.display = 'none';
-            }, 3000);
-        } else {
-            throw new Error(data.error || 'Form submission failed');
-        }
-    } catch (error) {
-        // Show error message
-        messageFormError.style.display = 'block';
-        messageFormSuccess.style.display = 'none';
-        
-        setTimeout(() => {
-            messageFormError.style.display = 'none';
-        }, 5000);
-    } finally {
-        // Re-enable button
-        submitMessageBtn.disabled = false;
-        submitMessageBtn.innerHTML = 'Send Message';
-    }
-});
+            if (messageForm) {
+                messageForm.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    const messageText = this.querySelector('textarea[name="message"]').value;
+                    if (!messageText.trim()) {
+                        alert('Please write a message first!');
+                        return;
+                    }
+                    
+                    submitMessageBtn.disabled = true;
+                    submitMessageBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+                    
+                    const formData = {
+                        message: messageText
+                    };
+                    
+                    try {
+                        const response = await fetch(this.action, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(formData)
+                        });
+                        
+                        const data = await response.json();
+                        
+                        if (data.success) {
+                            messageFormSuccess.style.display = 'block';
+                            messageFormError.style.display = 'none';
+                            
+                            setTimeout(() => {
+                                messageForm.reset();
+                                messageFormSuccess.style.display = 'none';
+                            }, 3000);
+                        } else {
+                            throw new Error(data.error || 'Form submission failed');
+                        }
+                    } catch (error) {
+                        messageFormError.style.display = 'block';
+                        messageFormSuccess.style.display = 'none';
+                        
+                        setTimeout(() => {
+                            messageFormError.style.display = 'none';
+                        }, 5000);
+                    } finally {
+                        submitMessageBtn.disabled = false;
+                        submitMessageBtn.innerHTML = 'Send Message';
+                    }
+                });
+            }
 
             // Fortune Cookie
             const fortuneBtn = document.getElementById('fortuneBtn');
@@ -1742,15 +1833,19 @@ messageForm.addEventListener('submit', async function(e) {
                 "The bond you share is top bond"
             ];
 
-            fortuneBtn.addEventListener('click', function() {
-                const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
-                fortuneMessage.textContent = randomFortune;
-                fortuneModal.style.display = 'flex';
-            });
+            if (fortuneBtn) {
+                fortuneBtn.addEventListener('click', function() {
+                    const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+                    fortuneMessage.textContent = randomFortune;
+                    fortuneModal.style.display = 'flex';
+                });
+            }
 
-            closeFortune.addEventListener('click', function() {
-                fortuneModal.style.display = 'none';
-            });
+            if (closeFortune) {
+                closeFortune.addEventListener('click', function() {
+                    fortuneModal.style.display = 'none';
+                });
+            }
 
             // Close modal when clicking outside
             window.addEventListener('click', function(event) {
@@ -1763,27 +1858,28 @@ messageForm.addEventListener('submit', async function(e) {
             const surpriseBtn = document.getElementById('surpriseBtn');
             const surpriseMessage = document.getElementById('surpriseMessage');
 
-            surpriseBtn.addEventListener('click', function() {
-                surpriseMessage.style.display = 'block';
-                this.style.display = 'none';
+            if (surpriseBtn) {
+                surpriseBtn.addEventListener('click', function() {
+                    surpriseMessage.style.display = 'block';
+                    this.style.display = 'none';
 
-                // Create floating hearts around the surprise
-                for (let i = 0; i < 20; i++) {
-                    const heart = document.createElement('div');
-                    heart.innerHTML = '❤️';
-                    heart.style.position = 'absolute';
-                    heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
-                    heart.style.left = Math.random() * 100 + '%';
-                    heart.style.top = Math.random() * 100 + '%';
-                    heart.style.opacity = '0.8';
-                    heart.style.animation = `float ${Math.random() * 5 + 3}s linear forwards`;
+                    // Create floating hearts around the surprise
+                    for (let i = 0; i < 20; i++) {
+                        const heart = document.createElement('div');
+                        heart.innerHTML = '❤️';
+                        heart.style.position = 'absolute';
+                        heart.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                        heart.style.left = Math.random() * 100 + '%';
+                        heart.style.top = Math.random() * 100 + '%';
+                        heart.style.opacity = '0.8';
+                        heart.style.animation = `float ${Math.random() * 5 + 3}s linear forwards`;
 
-                    document.querySelector('.surprise-container').appendChild(heart);
+                        document.querySelector('.surprise-container').appendChild(heart);
 
-                    // Remove heart after animation
-                    setTimeout(() => heart.remove(), 3000);
-                }
-            });
+                        setTimeout(() => heart.remove(), 3000);
+                    }
+                });
+            }
 
             // Navigation
             const navLinks = document.querySelectorAll('.nav-links a, .mobile-nav-link');
@@ -1797,25 +1893,28 @@ messageForm.addEventListener('submit', async function(e) {
                     const targetId = this.getAttribute('href');
                     const targetSection = document.querySelector(targetId);
 
-                    // Update active link
-                    navLinks.forEach(navLink => navLink.classList.remove('active'));
-                    this.classList.add('active');
+                    if (targetSection) {
+                        navLinks.forEach(navLink => navLink.classList.remove('active'));
+                        this.classList.add('active');
 
-                    // Scroll to section
-                    window.scrollTo({
-                        top: targetSection.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
+                        window.scrollTo({
+                            top: targetSection.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
 
-                    // Close mobile menu if open
-                    mobileMenu.style.display = 'none';
+                        if (mobileMenu) {
+                            mobileMenu.style.display = 'none';
+                        }
+                    }
                 });
             });
 
             // Mobile menu toggle
-            mobileMenuBtn.addEventListener('click', function() {
-                mobileMenu.style.display = mobileMenu.style.display === 'flex' ? 'none' : 'flex';
-            });
+            if (mobileMenuBtn && mobileMenu) {
+                mobileMenuBtn.addEventListener('click', function() {
+                    mobileMenu.style.display = mobileMenu.style.display === 'flex' ? 'none' : 'flex';
+                });
+            }
 
             // Section visibility on scroll
             const sections = document.querySelectorAll('section:not(.hero)');
@@ -1830,7 +1929,6 @@ messageForm.addEventListener('submit', async function(e) {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible');
 
-                        // Update active nav link
                         const id = entry.target.getAttribute('id');
                         navLinks.forEach(link => {
                             link.classList.remove('active');
@@ -1847,7 +1945,10 @@ messageForm.addEventListener('submit', async function(e) {
             });
 
             // Make the hero section visible immediately
-            document.querySelector('.hero').classList.add('visible');
+            const heroSection = document.querySelector('.hero');
+            if (heroSection) {
+                heroSection.classList.add('visible');
+            }
         }
     </script>
 </body>
