@@ -1104,46 +1104,45 @@
         </div>
     </section>
 
-    <!-- Games Section -->
-    <section id="games">
-        <div class="container">
-            <h2 class="section-title">Fun & Games</h2>
-            <div class="games-container">
-                <!-- Truth or Nah Form -->
-                <div class="game-card">
-                    <h3 class="game-title"><i class="fas fa-gamepad"></i> Truth or Nah?</h3>
-                    
-                    
-                 <form class="truth-form" id="truthForm">
-                        <div class="question" id="question1">What's the first thing you noticed about me?</div>
-                        <div class="options">
-                            <div class="option" data-question="1" data-answer="Your beautiful smile">Your beautiful smile</div>
-                            <div class="option" data-question="1" data-answer="Your sense of style">Your sense of style</div>
-                            <div class="option" data-question="1" data-answer="Your voice">Your voice</div>
-                            <div class="option" data-question="1" data-answer="Your eyes">Your eyes</div>
-                        </div>
-                        
-   <button action="https://formspree.io/f/xojnvbge" method="POST"type="submit" class="submit-btn" id="submitTruthBtn">Done! Send My Answers</button>                    
-                        <div class="form-success" id="truthFormSuccess">Okayy❤️</div>
-                        <div class="form-error" id="truthFormError">Oops! Something went wrong. Please try again.</div>
-                    </form>
-                </div>
-                
-                <!-- Message Form for the second person -->
-                <div class="game-card">
-                    <h3 class="game-title"><i class="fas fa-comment-dots"></i>My turn</h3>
-                    <p>How do you feel about our relationship or me that you dont want me to know. ......pls say your mind</p>
-                    
-                    <div class="message-form-container">
-                       <form id="messageForm">
-                           
-                            <textarea class="form-input" name="message" placeholder="Type your message, question, or anything you want to tell me..."></textarea>
-                            <button type="submit" class="submit-btn" id="submitMessageBtn">Send Message</button>
-                            <div class="form-success" id="messageFormSuccess">Hmmm....okayyy 💕</div>
-                            <div class="form-error" id="messageFormError">Failed to send message. Please try again.</div>
-                        </form>
-                    </div>
-                </div>
+    <<!-- Games Section - Update both forms -->
+
+<!-- Truth or Nah Form -->
+<div class="game-card">
+    <h3 class="game-title"><i class="fas fa-gamepad"></i> Truth or Nah?</h3>
+    
+    <form class="truth-form" id="truthForm" action="YOUR_RAILWAY_URL/send-truth" method="POST">
+        <div class="question" id="question1">What's the first thing you noticed about me?</div>
+        
+        <!-- Add this hidden input -->
+        <input type="hidden" id="question1Input" name="message">
+        
+        <div class="options">
+            <div class="option" data-question="1" data-answer="Your beautiful smile">Your beautiful smile</div>
+            <div class="option" data-question="1" data-answer="Your sense of style">Your sense of style</div>
+            <div class="option" data-question="1" data-answer="Your voice">Your voice</div>
+            <div class="option" data-question="1" data-answer="Your eyes">Your eyes</div>
+        </div>
+        
+        <button type="submit" class="submit-btn" id="submitTruthBtn">Done! Send My Answers</button>                    
+        <div class="form-success" id="truthFormSuccess">Okayy❤️</div>
+        <div class="form-error" id="truthFormError">Oops! Something went wrong. Please try again.</div>
+    </form>
+</div>
+
+<!-- Message Form -->
+<div class="game-card">
+    <h3 class="game-title"><i class="fas fa-comment-dots"></i>My turn</h3>
+    <p>How do you feel about our relationship or me that you dont want me to know. ......pls say your mind</p>
+    
+    <div class="message-form-container">
+        <form id="messageForm" action="YOUR_RAILWAY_URL/send-message" method="POST">
+            <textarea class="form-input" name="message" placeholder="Type your message, question, or anything you want to tell me..."></textarea>
+            <button type="submit" class="submit-btn" id="submitMessageBtn">Send Message</button>
+            <div class="form-success" id="messageFormSuccess">Hmmm....okayyy 💕</div>
+            <div class="form-error" id="messageFormError">Failed to send message. Please try again.</div>
+        </form>
+    </div>
+</div>
                 
                 <div class="game-card">
                     <h3 class="game-title"><i class="fas fa-fortune-cookie"></i> Love Fortune Cookie</h3>
