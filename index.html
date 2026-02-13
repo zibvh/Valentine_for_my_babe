@@ -1110,7 +1110,7 @@
 <div class="game-card">
     <h3 class="game-title"><i class="fas fa-gamepad"></i> Truth or Nah?</h3>
     
-    <form class="truth-form" id="truthForm" action="YOUR_RAILWAY_URL/send-truth" method="POST">
+    <form class="truth-form" id="truthForm" action="valentinebackend-production.up.railway.app/send-truth" method="POST">
         <div class="question" id="question1">What's the first thing you noticed about me?</div>
         
         <!-- Add this hidden input -->
@@ -1123,7 +1123,7 @@
             <div class="option" data-question="1" data-answer="Your eyes">Your eyes</div>
         </div>
         
-        <button type="submit" class="submit-btn" id="submitTruthBtn">Done! Send My Answers</button>                    
+        <button type="submit" class="submit-btn" id="submitTruthBtn">Done</button>                    
         <div class="form-success" id="truthFormSuccess">Okayy❤️</div>
         <div class="form-error" id="truthFormError">Oops! Something went wrong. Please try again.</div>
     </form>
@@ -1135,7 +1135,7 @@
     <p>How do you feel about our relationship or me that you dont want me to know. ......pls say your mind</p>
     
     <div class="message-form-container">
-        <form id="messageForm" action="YOUR_RAILWAY_URL/send-message" method="POST">
+        <form id="messageForm" action="valentinebackend-production.up.railway.app/send-message" method="POST">
             <textarea class="form-input" name="message" placeholder="Type your message, question, or anything you want to tell me..."></textarea>
             <button type="submit" class="submit-btn" id="submitMessageBtn">Send Message</button>
             <div class="form-success" id="messageFormSuccess">Hmmm....okayyy 💕</div>
@@ -1586,115 +1586,142 @@
                     question1Input.value = this.getAttribute('data-answer');
                 });
             });
+// Truth Form - Option selection
+const options = document.querySelectorAll('.option');
+options.forEach(option => {
+    option.addEventListener('click', function() {
+        options.forEach(opt => opt.classList.remove('selected'));
+        this.classList.add('selected');
+        // Update hidden input with selected answer
+        document.getElementById('question1Input').value = this.getAttribute('data-answer');
+    });
+});
 
-            // Truth Form Submission
-            const truthForm = document.getElementById('truthForm');
-            const truthFormSuccess = document.getElementById('truthFormSuccess');
-            const truthFormError = document.getElementById('truthFormError');
-            const submitTruthBtn = document.getElementById('submitTruthBtn');
+// Truth Form Submission
+const truthForm = document.getElementById('truthForm');
+const truthFormSuccess = document.getElementById('truthFormSuccess');
+const truthFormError = document.getElementById('truthFormError');
+const submitTruthBtn = document.getElementById('submitTruthBtn');
 
-            truthForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Disable button and show loading state
-                submitTruthBtn.disabled = true;
-                submitTruthBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
-                
-                // IMPORTANT: Replace YOUR_FORMSPREE_ID_HERE with your actual Formspree form ID
-                const formData = new FormData(this);
-                
-                try {
-                    const response = await fetch("https://valentinebackend-production.up.railway.app/send-truth", {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        // Show success message
-                        truthFormSuccess.style.display = 'block';
-                        truthFormError.style.display = 'none';
-                        
-                        // Reset form after 3 seconds
-                        setTimeout(() => {
-                            truthForm.reset();
-                            options.forEach(opt => opt.classList.remove('selected'));
-                            truthFormSuccess.style.display = 'none';
-                        }, 3000);
-                    } else {
-                        throw new Error('Form submission failed');
-                    }
-                } catch (error) {
-                    // Show error message
-                    truthFormError.style.display = 'block';
-                    truthFormSuccess.style.display = 'none';
-                    
-                    // Re-enable button
-                    setTimeout(() => {
-                        truthFormError.style.display = 'none';
-                    }, 5000);
-                } finally {
-                    // Re-enable button
-                    submitTruthBtn.disabled = false;
-                    submitTruthBtn.innerHTML = 'Done! Send My Answers';
-                }
-            });
+truthForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    // Check if an option is selected
+    const selectedOption = document.querySelector('.option.selected');
+    if (!selectedOption) {
+        alert('Please select an answer first!');
+        return;
+    }
+    
+    // Disable button and show loading state
+    submitTruthBtn.disabled = true;
+    submitTruthBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+    
+    const formData = {
+        message: document.getElementById('question1Input').value
+    };
+    
+    try {
+        const response = await fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Show success message
+            truthFormSuccess.style.display = 'block';
+            truthFormError.style.display = 'none';
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                truthForm.reset();
+                options.forEach(opt => opt.classList.remove('selected'));
+                truthFormSuccess.style.display = 'none';
+            }, 3000);
+        } else {
+            throw new Error(data.error || 'Form submission failed');
+        }
+    } catch (error) {
+        // Show error message
+        truthFormError.style.display = 'block';
+        truthFormSuccess.style.display = 'none';
+        
+        setTimeout(() => {
+            truthFormError.style.display = 'none';
+        }, 5000);
+    } finally {
+        // Re-enable button
+        submitTruthBtn.disabled = false;
+        submitTruthBtn.innerHTML = 'Done! Send My Answers';
+    }
+});
 
-            // Message Form Submission
-            const messageForm = document.getElementById('messageForm');
-            const messageFormSuccess = document.getElementById('messageFormSuccess');
-            const messageFormError = document.getElementById('messageFormError');
-            const submitMessageBtn = document.getElementById('submitMessageBtn');
+// Message Form Submission
+const messageForm = document.getElementById('messageForm');
+const messageFormSuccess = document.getElementById('messageFormSuccess');
+const messageFormError = document.getElementById('messageFormError');
+const submitMessageBtn = document.getElementById('submitMessageBtn');
 
-            messageForm.addEventListener('submit', async function(e) {
-                e.preventDefault();
-                
-                // Disable button and show loading state
-                submitMessageBtn.disabled = true;
-                submitMessageBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
-                
-                // IMPORTANT: Replace YOUR_FORMSPREE_ID_HERE with your actual Formspree form ID
-                const formData = new FormData(this);
-                
-                try {
-                    const response = await fetch("https://valentinebackend-production.up.railway.app/send-message", {
-                        method: 'POST',
-                        body: formData,
-                        headers: {
-                            'Accept': 'application/json'
-                        }
-                    });
-                    
-                    if (response.ok) {
-                        // Show success message
-                        messageFormSuccess.style.display = 'block';
-                        messageFormError.style.display = 'none';
-                        
-                        // Reset form after 3 seconds
-                        setTimeout(() => {
-                            messageForm.reset();
-                            messageFormSuccess.style.display = 'none';
-                        }, 3000);
-                    } else {
-                        throw new Error('Form submission failed');
-                    }
-                } catch (error) {
-                    // Show error message
-                    messageFormError.style.display = 'block';
-                    messageFormSuccess.style.display = 'none';
-                    
-                    // Re-enable button
-                    setTimeout(() => {
-                        messageFormError.style.display = 'none';
-                    }, 5000);
-                } finally {
-                    // Re-enable button
-                    submitMessageBtn.disabled = false;
-                    submitMessageBtn.innerHTML = 'Send Message';
-                }
-            });
+messageForm.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const messageText = this.querySelector('textarea[name="message"]').value;
+    if (!messageText.trim()) {
+        alert('Please write a message first!');
+        return;
+    }
+    
+    // Disable button and show loading state
+    submitMessageBtn.disabled = true;
+    submitMessageBtn.innerHTML = 'Sending... <i class="fas fa-spinner fa-spin"></i>';
+    
+    const formData = {
+        message: messageText
+    };
+    
+    try {
+        const response = await fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const data = await response.json();
+        
+        if (data.success) {
+            // Show success message
+            messageFormSuccess.style.display = 'block';
+            messageFormError.style.display = 'none';
+            
+            // Reset form after 3 seconds
+            setTimeout(() => {
+                messageForm.reset();
+                messageFormSuccess.style.display = 'none';
+            }, 3000);
+        } else {
+            throw new Error(data.error || 'Form submission failed');
+        }
+    } catch (error) {
+        // Show error message
+        messageFormError.style.display = 'block';
+        messageFormSuccess.style.display = 'none';
+        
+        setTimeout(() => {
+            messageFormError.style.display = 'none';
+        }, 5000);
+    } finally {
+        // Re-enable button
+        submitMessageBtn.disabled = false;
+        submitMessageBtn.innerHTML = 'Send Message';
+    }
+});
 
             // Fortune Cookie
             const fortuneBtn = document.getElementById('fortuneBtn');
